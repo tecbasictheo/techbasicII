@@ -6,7 +6,7 @@
 Ontop are global variabls 
 void set up: runs once -> just for the set up\ 
 void looop: runs repataly for the maincode\ 
-void meaning: something is missing -> does not return anything\ 
+void meaning: something is missing -> does not return anything 
 
 - board: board influce how the code is being compiled 
 - port: where the input is coming from
