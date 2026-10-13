@@ -4,9 +4,9 @@
 -> Basics in Arduino:
 
 Ontop are global variabls 
-void set up: runs once -> just for the set up 
-void looop: runs repataly for the maincode 
-void meaning: something is missing -> does not return anything 
+void set up: runs once -> just for the set up\ 
+void looop: runs repataly for the maincode\ 
+void meaning: something is missing -> does not return anything\ 
 
 - board: board influce how the code is being compiled 
 - port: where the input is coming from
@@ -14,8 +14,8 @@ void meaning: something is missing -> does not return anything
 ####Project: Lamps
 - pins have two modes: input and output 
 - HIGH and LOW = 1 and 0 
--> when it is only one, it to fast for us to see the blinking 
--> delay causes us to see the blinking
+-> when it is only one, it to fast for us to see the blinking\ 
+-> delay causes us to see the blinking\
 -> power from 13 and gnd means 0 
 ```
 void setup() {   // put your setup code here, to run once:
