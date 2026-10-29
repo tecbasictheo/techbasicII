@@ -207,3 +207,256 @@ void setRGB(int redValue, int greValue, int bluValue){
 ```
 -> different color values can be used to mix the lamp colors -> different color combination with different lightvalues can create different colored lights.
 
+### 27.10. Lession 3
+
+PWM: Pule-width-modulation 
+- digital method of controlling analog power by rapidly switching a signal on and off
+
+Duty-cycle: the proportion of „on-time“ in each cycle 
+
+Code one:\
+To fade the light in. 
+```
+void setup() {   // put your setup code here, to run once:
+  pinMode(3, OUTPUT);
+}
+void loop() {// put your main code here, to run repeatedly:
+  for (int i = 0; i <= 255; i += 1) {
+    analogWrite(3, i);
+    delay(50); 
+  }
+}
+```
+Code two:\
+To fade in and to fade out: -> video
+```
+void setup() {   // put your setup code here, to run once:
+  pinMode(3, OUTPUT);
+}
+
+void loop() {// put your main code here, to run repeatedly:
+  for (int i = 0; i <= 255; i += 5) {
+    analogWrite(3, i);
+    delay(50); 
+  }
+  for (int i = 255; i >= 0; i -= 5) {
+    analogWrite(3, i);
+    delay(50); 
+  }
+}
+
+```
+Analog signals are continuous and smooth 
+Digital signals are discrete and represented by binary states 
+
+TX(transmit) and  RX(Receive):\
+- for serial communication
+- usable as normal digital pins, if no serial communication 
+
+- 2-13: Digital I/O pins, ~ for PWM
+- A0-5: Analog Input Pins
+- VIN: to power the Arduino UNO (7-12V)
+- Reset: does the same job as the reset button
+- IOREF: Reference Voltage for all I/O pins, connected to 5v on Arduino UNO
+
+digitalWrite() / digitalRead()
+HIGH - 5V
+Low - 0V
+→ Both Digital and Analog Pins
+
+Tilt Switch: detects the tilting of an object
+
+Serial.print()
+- serial monitor in tools to open the mointor in Adino
+
+Code three: 
+```
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(9600);
+  delay(500);
+  Serial.println("Hello");
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  Serial.println("Hello"); 
+  delay(10000);
+}
+```
+Code 4: 
+With usage of the Tiltsensor: 
+```
+const int tiltSensor = 2; 
+int value = 0; 
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(tiltSensor, INPUT); //like a lamp input 
+  Serial.begin(9600);
+  delay(500);
+}
+
+void loop() {
+  value = Serial.println(digitalRead(tiltSensor));
+  Serial.println(value);
+}
+```
+Serial Baud Rates: 
+- numbers of signal changes per second (serial communication channel)
+- The specific rate must be matched between the transmitting and receiving devices .
+- commonly used for Arduino: 9600 bps
+
+```
+const int tiltSensor = 2; 
+int value = 0; 
+
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(tiltSensor, INPUT_PULLUP); //like a lamp input 
+  Serial.begin(9600);
+  delay(500);
+}
+
+void loop() {
+  value = Serial.println(digitalRead(tiltSensor));
+  Serial.print("Tilt sensor:"); 
+  Serial.println(value);
+}
+```
+
+INPUT_PULLUP -> foto 
+Ask Arduino to use internal pull-up resistors (resistors that connect to power internally)
+- Prevents Floating Pins: Without a pull-up or pull-down resistor, an unconnected pin "floats"
+- picking up electrical noise and returning random
+- unstable HIGH or LOW values.
+
+- digittal read 0 and 1 
+- anolog read 0 and 1200 also 5 v only on analog pins 
+
+AnalogRead()
+- Analog pin gives you a value between 0 and 1023
+- where 0 means 0V and 1023 means the maximum voltage possible (5V by default).
+- only use analogRead() on Analog pins
+
+ADC
+- Arduino UNO contains a 10-bit, 6-channel analog to digital converter (ADC)
+- A device that converts an analog signal (voltage) into a digital value
+- You can set the AREF(Analog Reference) pin to sth lower than 5v for higher resolution for low voltage component
+
+Potentiometer
+- A potentiometer is an adjustable resistor
+- Most common use Case:
+Volume Adjustment -> liniar Potentiometer
+
+analog read: 
+```
+const int pot = A0; 
+int value = 0; 
+
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(A0, INPUT); //like a lamp input 
+  Serial.begin(9600);
+  delay(500);
+}
+
+void loop() {
+  value = analogRead(pot);
+  Serial.print(„Pot:“);
+  Serial.println(value);
+}
+```
+
+0 means reading 0 volatge - meaning high restisnace 
+This makes a volage devider -> is in a serial circle -> share the same voltage they share it 
+
+-   map()
+```
+const int pot = A0; 
+const int led = 3; 
+int value = 0; 
+int brightness = 0; 
+
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(A0, INPUT); //like a lamp input 
+  pinMode(led, OUTPUT);
+  Serial.begin(9600);
+  delay(500);
+}
+
+void loop() {
+  value = analogRead(pot);
+
+  Serial.print("Pot:");
+  Serial.println(value);
+
+  brightness = map(value, 0, 1023, 0, 255); 
+
+  analogWrite(led, brightness); 
+}
+```
+brightness control of the lamp -> video und foto 
+-> the board connects both actions and do not need to be connected over a cable 
+
+photorestiser: reconises when something is over it and/or covering it
+
+```
+const int pot = A0; 
+const int led = 3; 
+int value = 0; 
+int brightness = 0; 
+
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(A0, INPUT); //like a lamp input 
+  pinMode(led, INPUT);
+  Serial.begin(9600);
+  delay(500);
+}
+
+void loop() {
+  value = analogRead(pot);
+
+  Serial.print("Pot:");
+  Serial.println(value);
+
+  brightness = map(value, 0, 1023, 0, 255); 
+
+  analogWrite(led, brightness); 
+}
+
+```
+photo mit sensor -> need 10k resistor 
+touch lamp video
+
+```
+const int pot = A0; 
+const int led = 3; 
+int value = 0; 
+int brightness = 0; 
+
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(A0, INPUT); //like a lamp input 
+  pinMode(led, INPUT);
+  Serial.begin(9600);
+  delay(500);
+}
+
+void loop() {
+  value = analogRead(pot);
+
+  Serial.print("Pot:");
+  Serial.println(value);
+
+  if (value > 400) {
+    digitalWrite(led, LOW); 
+  } else {
+    digitalWrite(led, HIGH); 
+  }
+}
+```
+
+ 
+
